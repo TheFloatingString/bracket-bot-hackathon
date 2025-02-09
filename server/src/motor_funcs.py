@@ -36,24 +36,31 @@ def release(key):
     # Stop motors when key is released
     client.publish(MQTT_TOPIC, "stop")
 
-
 def motor_forward():
-    press('a')
-    time.sleep(2.0)
-    client.publish(MQTT_TOPIC, "stop")
+    press('d')
 
 def motor_backward():
-    press('d')
-    time.sleep(2.0)
-    client.publish(MQTT_TOPIC, "stop")
+    press('a')
 
 def motor_left():
     press('s')
-    time.sleep(2.0)
-    client.publish(MQTT_TOPIC, "stop")
 
 def motor_right():
     press('w')
-    time.sleep(2.0)
+
+def motor_stop():
     client.publish(MQTT_TOPIC, "stop")
 
+if __name__ == "__main__":
+    motor_forward()
+    time.sleep(0.5)
+    motor_backward()
+    time.sleep(0.5)
+    motor_stop()
+    time.sleep(0.5)
+    motor_left()
+    time.sleep(0.5)
+    motor_right()
+    time.sleep(0.5)
+    motor_stop()
+    time.sleep(2)

@@ -4,6 +4,8 @@ from pyngrok import ngrok
 import threading
 import time
 
+from src import motor_funcs
+
 app = Flask(__name__)
 
 # Global variable to store the camera object
@@ -52,6 +54,31 @@ def video_feed():
     """Route for streaming video"""
     return Response(generate_frames(),
                    mimetype='multipart/x-mixed-replace; boundary=frame')
+
+@app.route("/motor/forward")
+def motor_forward():
+    motor_funcs.motor_forward()
+    return {"message": "forward"}
+
+@app.route("/motor/backward")
+def motor_backward():
+    motor_funcs.motor_backward()
+    return {"message": "backward"}
+
+@app.route("/motor/left")
+def motor_left():
+    motor_funcs.motor_left()
+    return {"message": "left"}
+
+@app.route("/motor/right")
+def motor_right():
+    motor_funcs.motor_right()
+    return {"message": "right"}
+
+@app.route("/motor/stop")
+def motor_stop():
+    motor_funcs.motor_stop()
+    return {"message": "stop"}
 
 def cleanup():
     """Release camera resources"""
