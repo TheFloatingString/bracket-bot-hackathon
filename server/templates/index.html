@@ -21,26 +21,6 @@
         setupButton('right', 'right');
         setupButton('stop', 'stop');
       };
-
-      const outputDiv = document.getElementById("output");
-      const eventSource = new EventSource("/stream");
-
-      let timeout = null;
-
-      eventSource.onmessage = function(event) {
-        outputDiv.innerHTML += event.data;  // Append new text
-
-        // Reset the timeout every time new text arrives
-        clearTimeout(timeout);
-        timeout = setTimeout(() => {
-          outputDiv.innerHTML = ""; // Clear text if no new message in 3 sec
-        }, 3000);
-      };
-
-      eventSource.onerror = function() {
-        console.error("EventSource failed.");
-        eventSource.close();
-      };
     </script>
     <style>
       .grid-container {
@@ -76,4 +56,26 @@
     <br/>
     <div id="output" style="width: 500px; word-wrap: break-word; text-align: center; margin: 0 auto;"></div>
   </body>
+  <script>
+
+const outputDiv = document.getElementById("output");
+  const eventSource = new EventSource("/stream");
+
+  let timeout = null;
+
+  eventSource.onmessage = function(event) {
+    outputDiv.innerHTML += event.data + " ";  // Append new text
+
+    // Reset the timeout every time new text arrives
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      outputDiv.innerHTML = ""; // Clear text if no new message in 3 sec
+    }, 3000);
+  };
+
+  eventSource.onerror = function() {
+    console.error("EventSource failed.");
+    eventSource.close();
+  };
+  </script>
 </html>
