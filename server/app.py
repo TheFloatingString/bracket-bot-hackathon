@@ -1,4 +1,4 @@
-from flask import Flask, Response
+from flask import Flask, Response, render_response
 import cv2
 from pyngrok import ngrok
 import threading
@@ -40,17 +40,8 @@ def generate_frames():
 @app.route("/")
 def index():
     """Serve a simple HTML page with the video stream"""
-    return """
-    <html>
-        <head>
-            <title>Video Stream</title>
-        </head>
-        <body>
-            <h1>Live Video Stream</h1>
-            <img src="/video_feed" width="640" height="480">
-        </body>
-    </html>
-    """
+    return render_template('index.html')
+
 
 
 @app.route("/video_feed")
