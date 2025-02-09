@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>A-Frame Video Stream</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aframe/1.4.2/aframe.min.js"></script>
+    <style>
+      body { margin: 0; }
+      .a-enter-vr { position: fixed; }
+    </style>
+  </head>
+  <body>
+    <a-scene embedded>
+      <!-- Environment -->
+      <a-sky color="#ECECEC"></a-sky>
+      <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
+      
+      <!-- Camera -->
+      <a-entity position="0 1.6 0">
+        <a-camera look-controls wasd-controls></a-camera>
+      </a-entity>
+      
+      <!-- Video display plane -->
+      <a-plane id="videoPlane" 
+               position="0 1.6 -2" 
+               width="2.5" 
+               height="2"
+               material="shader: flat">
+      </a-plane>
+      
+      <!-- Lighting -->
+      <a-light type="ambient" color="#888"></a-light>
+      <a-light type="directional" position="-1 1 1" color="#FFF"></a-light>
+    </a-scene>
+
+    <script>
+      window.addEventListener('load', function() {
+        // Create dynamic video element
+        const video = document.createElement('img');
+        video.style.display = 'none';
+        video.crossOrigin = 'anonymous';
+        
+        // Function to update the video source with a timestamp to prevent caching
+        function updateVideoSource() {
+          video.src = "/video_feed?" + new Date().getTime();
+        }
+        
+        // Initial load
+        updateVideoSource();
+        
+        // Update the video plane material when the image loads
+        video.onload = function() {
+          const videoPlane = document.getElementById('videoPlane');
+          if (videoPlane) {
+            videoPlane.setAttribute('material', {
+              src: video,
+              shader: 'flat',
+              needsUpdate: true
+            });
+          }
+          // Request the next frame
+          setTimeout(updateVideoSource, 50);  // 20fps maximum
+        };
+
+        // Handle errors
+        video.onerror = function() {
+          console.log('Error loading video frame, retrying...');
+          setTimeout(updateVideoSource, 1000);  // Retry after 1 second
+        };
+
+        // Add to document
+        document.body.appendChild(video);
+      });
+    </script>
+  </body>
+</html>
