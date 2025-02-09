@@ -28,7 +28,7 @@
       let timeout = null;
 
       eventSource.onmessage = function(event) {
-        outputDiv.innerHTML += event.data + "<br>";  // Append new text
+        outputDiv.innerHTML += event.data;  // Append new text
 
         // Reset the timeout every time new text arrives
         clearTimeout(timeout);
@@ -58,7 +58,8 @@
     </style>
     <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
       <img src="/video_feed" width="640" height="480">
-      <div class="grid-container" style="height: 100vh; display: flex; justify-content: center; align-items: center;">
+      <div style="width: 20px;"></div>
+      <div class="grid-container" style="display: flex; justify-content: center; align-items: center;">
         <div style="display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); gap: 10px; justify-items: center; align-items: center;">
           <div></div>
           <button id="forward" style="width: 100px; height: 100px;">Forward</button>
@@ -72,5 +73,7 @@
         </div>
       </div>
     </div>
+    <br/>
+    <div id="output" style="width: 500px; word-wrap: break-word; text-align: center; margin: 0 auto;"></div>
   </body>
 </html>
