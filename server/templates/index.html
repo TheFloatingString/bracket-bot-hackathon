@@ -11,9 +11,7 @@
 
       function setupButton(buttonId, command) {
         const button = document.getElementById(buttonId);
-        button.onmousedown = () => sendMotorCommand(command);
-        button.onmouseup = () => sendMotorCommand('stop');
-        button.onmouseleave = () => sendMotorCommand('stop');
+        button.onclick = () => sendMotorCommand(command);
       }
 
       window.onload = () => {
@@ -21,6 +19,7 @@
         setupButton('backward', 'backward');
         setupButton('left', 'left');
         setupButton('right', 'right');
+        setupButton('stop', 'stop');
       };
     </script>
     <style>
@@ -45,7 +44,7 @@
           <button id="forward" style="width: 100px; height: 100px;">Forward</button>
           <div></div>
           <button id="left" style="width: 100px; height: 100px;">Left</button>
-          <div></div>
+          <button id="stop" style="width: 100px; height: 100px;">Stop</button>
           <button id="right" style="width: 100px; height: 100px;">Right</button>
           <div></div>
           <button id="backward" style="width: 100px; height: 100px;">Backward</button>

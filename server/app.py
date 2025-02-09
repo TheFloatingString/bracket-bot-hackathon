@@ -1,4 +1,4 @@
-from flask import Flask, Response, render_response
+from flask import Flask, Response, render_template
 import cv2
 from pyngrok import ngrok
 import threading
