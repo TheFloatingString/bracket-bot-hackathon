@@ -21,6 +21,26 @@
         setupButton('right', 'right');
         setupButton('stop', 'stop');
       };
+
+      const outputDiv = document.getElementById("output");
+      const eventSource = new EventSource("/stream");
+
+      let timeout = null;
+
+      eventSource.onmessage = function(event) {
+        outputDiv.innerHTML += event.data + "<br>";  // Append new text
+
+        // Reset the timeout every time new text arrives
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+          outputDiv.innerHTML = ""; // Clear text if no new message in 3 sec
+        }, 3000);
+      };
+
+      eventSource.onerror = function() {
+        console.error("EventSource failed.");
+        eventSource.close();
+      };
     </script>
     <style>
       .grid-container {
