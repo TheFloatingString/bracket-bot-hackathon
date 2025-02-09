@@ -15,7 +15,7 @@ def get_camera():
     """Initialize or return existing camera object"""
     global camera
     if camera is None:
-        camera = cv2.VideoCapture(0)
+        camera = cv2.VideoCapture(4)
     return camera
 
 def generate_frames():
@@ -23,6 +23,7 @@ def generate_frames():
     camera = get_camera()
     while True:
         success, frame = camera.read()
+        frame = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
         if not success:
             break
         
